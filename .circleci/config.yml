@@ -8,6 +8,7 @@ jobs:
             
   build:
     
+    machine: true
     working_directory: ~/myrepo
     
     steps:
