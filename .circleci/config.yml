@@ -13,7 +13,6 @@ jobs:
 
       - checkout
       - run:
-          name: Maven build
           command: 'sudo clean install package -Dmaven.test.skip=true'
       - save_cache:
           paths:
