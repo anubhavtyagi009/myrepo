@@ -1,0 +1,9 @@
+commands:
+  sayhello:
+    description: "ORR-Reporting-API"
+    parameters:
+      to:
+        type: string
+        default: "Test Circle CI Setup"
+    steps:
+      - run: echo << parameters.to >>
