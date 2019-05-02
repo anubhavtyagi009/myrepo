@@ -24,7 +24,7 @@ jobs:
           path: target/orr-reporting-api-0.0.1-SNAPSHOT.war
           
 workflows:
-  version: 2
+version: 2
   build:
     jobs:
       - build  
