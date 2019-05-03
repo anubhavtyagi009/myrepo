@@ -1,10 +1,9 @@
 version: 2
 jobs:
   build:
-    machine: true
-  deploy-job:
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "01:54:ff:ba:1d:d8:0a:db:a9:98:09:c3:b3:21:d5:a0"
+    deploy-job:
+      steps:
+        - add_ssh_keys:
+            fingerprints:
+              - "01:54:ff:ba:1d:d8:0a:db:a9:98:09:c3:b3:21:d5:a0"
   
