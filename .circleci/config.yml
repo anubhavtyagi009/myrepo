@@ -11,18 +11,7 @@ jobs:
    build:
     machine: true
             
-    working_directory: ~/myrepo    
-
-      - checkout
-      - run:
-          command: sudo clean install package -Dmaven.test.skip=true
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: myrepo-{{ checksum "pom.xml" }}
-      
-      - store_artifacts:
-          path: target/orr-reporting-api-0.0.1-SNAPSHOT.war
+   
           
 workflows:
 version: 2
