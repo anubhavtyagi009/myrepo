@@ -1,18 +1,14 @@
-version: 2
-jobs:
-  build:
-    machine: true
-    steps:
-      - checkout
-      - run:
-          name: "Log in to AWS ECR"
-          command: eval $(aws ecr get-login --no-include-email --region us-east-1)
-      - run:
-          name: "Build & Push Docker Image"
-          command: |
-            docker build -t orr-dev-repo .
-            docker tag orr-dev-repo:latest 233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:latest
-            docker push 233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:latest
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@0.0.2
+workflows:
+  build-and-deploy:
+    jobs:
+      - aws-ecr/build_and_push_image:
+          account-url: "233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo"
+          repo: "orr-dev-repo"
+          region: us-east-1
+          tag: "latest"
 
 
   
