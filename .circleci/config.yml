@@ -3,7 +3,16 @@ jobs:
   build:
     machine: true
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "01:54:ff:ba:1d:d8:0a:db:a9:98:09:c3:b3:21:d5:a0"
+      - checkout
+      - run:
+          name: "Log in to AWS ECR"
+          command: eval $(aws ecr get-login --no-include-email --region us-east-1)
+      - run:
+          name: "Build & Push Docker Image"
+          command: |
+            docker build -t orr-dev-repo .
+            docker tag orr-dev-repo:latest 233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:latest
+            docker push 233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:latest
+
+
   
