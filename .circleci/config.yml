@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 orbs:
   aws-ecr: circleci/aws-ecr@0.0.4
   aws-ecs: circleci/aws-ecs@0.0.3
@@ -15,7 +15,7 @@ workflows:
             - aws-ecr/build_and_push_image
           family: 'td-testing-reporting-api'
           cluster-name: 'cluster-test-reporting-api'
-          container-image-name-updates: 'container=container-orr-api:1,tag=latest'
+          container-image-name-updates: 'container=container-orr-api,tag=latest'
 
 
   
