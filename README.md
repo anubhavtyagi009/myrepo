@@ -98,5 +98,6 @@ java -jar testapp-0.0.1-SNAPSHOT.war --spring.profiles.active=qa -Dmaven.test.sk
 
 ## command to create war/jar
 mvn clean install -Dmaven.test.skip=true
+#
 
 
