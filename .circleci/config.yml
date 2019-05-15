@@ -13,6 +13,6 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build_and_push_image
-          family: "td-testing-reporting-api-service"
-          cluster-name: "cluster-test-reporting-api-cluster"
-          container-image-name-updates: 'container=container-orr-api-service,tag=${CIRCLE_SHA1}'  
+          family: "orr-dev-repo-service"
+          cluster-name: "orr-dev-repo-cluster"
+          container-image-name-updates: 'container=orr-dev-repo-service,tag=${CIRCLE_SHA1}'  
