@@ -1,8 +1,11 @@
 package com.impelsys.microservice.service;
 
+/**
+ * Created by mkpatil on 13/10/17.
+ */
 public abstract class CommonServiceResponse {
 
-    public  boolean SUCCESSFULL = true;
+    public  boolean SUCCESSFUL = true;
     Integer errorCode;
     String errorMessage;
     private String message;

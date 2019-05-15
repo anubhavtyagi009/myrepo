@@ -37,9 +37,9 @@ spring:
        # username: root
        # password: root
         driver-class-name: com.amazon.redshift.jdbc42.Driver
-        url: jdbc:redshift://r-dev-orr-redshift-cluster-1.cddm8vpzeufh.us-east-1.redshift.amazonaws.com:5439/r_dev_orr_redshift
-        username: r_dev_orr_user1
-        password: Abcd1234
+        url: jdbc:redshift://redshift-cluster-2.cwupgctbnssf.us-east-1.redshift.amazonaws.com:5439/dev
+        username: awsusersara2
+        password: Abcde12345
         hikari:
             auto-commit: false
             data-source-properties:

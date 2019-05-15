@@ -1,0 +1,68 @@
+######################
+# Project Specific
+######################
+/src/main/webapp/assets/styles/main.css
+/src/main/webapp/dist
+
+######################
+# Node
+######################
+/node/**
+**/node_modules/**
+
+######################
+# Bower
+######################
+**/bower_components/**
+
+######################
+# SASS
+######################
+.sass-cache/**
+
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Generated files
+**/target*/
+src-generated/
+build/
+
+# Mac files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IntelliJ files
+*.iml
+.idea/
+
+# Sonar generated files
+.sonar
+
+#log
+log/*.log
+logs/*.log
+**/log/*.log
+**/logs/*.log
+*.log
+
+*.log.*
+
+#Elastic search data directory
+**/data/*
+
+**/pom.xml.bak
+*.ipr
+*.iws
+/.apt_generated/
+
+
+

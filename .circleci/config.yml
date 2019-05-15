@@ -1,31 +1,9 @@
-version: 2
-jobs:
-  deploy-job:
+commands:
+  sayhello:
+    description: "ORR-Reporting-API"
+    parameters:
+      to:
+        type: string
+        default: "Test Circle CI Setup"
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "01:54:ff:ba:1d:d8:0a:db:a9:98:09:c3:b3:21:d5:a0"
-            
-  build:
-    
-    working_directory: ~/myrepo
-    
-    steps:
-
-      - checkout
-      - run:
-          name: Maven build
-          command: 'sudo clean install package -Dmaven.test.skip=true'
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: myrepo-{{ checksum "pom.xml" }}
-      
-      - store_artifacts:
-          path: target/orr-reporting-api-0.0.1-SNAPSHOT.war
-          
-workflows:
-  version: 2
-  build:
-    jobs:
-      - build  
+      - run: echo << parameters.to >>
