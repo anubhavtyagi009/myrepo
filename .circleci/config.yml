@@ -100,7 +100,7 @@ jobs:
                 export ECS_CONTAINER_DEFINITION_NAME="td-testing-reporting-api"
                 export ECS_SERVICE_NAME="service-testing-reporting-api"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
-                export ECS_ENVIRONMENT="sandbox"  
+                
             fi
             
             JQ="jq --raw-output --exit-status"    
@@ -146,19 +146,13 @@ jobs:
                       "containerPort": 8060
                     }
                   ],
-                  "environment" : [
-                    {
-                      "name": "environment_name",
-                      "value": "sandbox"
-                    }
-                  ],
                 }
               ]'
             
             
             task_def=$(printf "$task_template" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1)            
             echo "task template: " $task_template
-            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1 $ECS_ENVIRONMENT
+            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1
             
             fi
             }
