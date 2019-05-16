@@ -45,7 +45,6 @@ jobs:
     environment:
       AWS_DEFAULT_OUTPUT: json
     steps:
-      - checkout
       - setup_remote_docker
       - attach_workspace:
           at: workspace
