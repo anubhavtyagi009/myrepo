@@ -1,18 +1,187 @@
-version: 2.1
-orbs:
-  aws-ecr: circleci/aws-ecr@0.0.2
-  aws-ecs: circleci/aws-ecs@0.0.8
+version: 2
+jobs:
+  build:  
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Make the executable
+          command: |
+            mvn package
+      - run:
+          name: Setup common environment variables
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then               
+              
+              echo 'export BEC_ECR_REPOSITORY_NAME="orr-dev-repo"' >> $BASH_ENV
+              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
+              
+            else              
+              
+              echo 'export ECR_REPOSITORY_NAME="orr-api-repo"' >> $BASH_ENV
+              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-api-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
+            fi 
+      - run:
+          name: Build image
+          command: |
+            echo $FULL_IMAGE_NAME
+            docker build -t $FULL_IMAGE_NAME .
+            
+      - run:
+          name: Save image to an archive
+          command: |
+            echo $FULL_IMAGE_NAME
+            mkdir docker-image
+            docker save -o docker-image/image.tar $FULL_IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docker-image
+  deploy:  
+    docker:
+      - image: circleci/python:3.6.1
+    environment:
+      AWS_DEFAULT_OUTPUT: json
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: workspace
+      - restore_cache:
+          key: v1-{{ checksum "requirements.txt" }}
+      
+      - run:
+          name: Install awscli
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              
+              echo "************in IF loop************* "
+              sudo python3 -m venv venv
+              . venv/bin/activate
+              sudo pip install --upgrade pip  
+              sudo -H pip install awscli --upgrade --ignore-installed six              
+              
+              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+              aws configure set default.region $AWS_REGION
+       
+              aws s3 ls
+            fi
+       - save_cache:
+          key: v1-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Load image
+          command: |
+            docker load --input workspace/docker-image/image.tar
+      - run:
+          name: Push image
+          command: |
+            . venv/bin/activate
+            
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then  
+            
+              echo "************in IF loop*************"             
+              echo $(aws ecr get-login --region $AWS_REGION --no-include-email)
+              eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
+              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/aar-api:$CIRCLE_SHA1  
+            fi
+      - run:
+          name: Deploy
+          command: |
+            . venv/bin/activate
+            
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then 
+                
+                export ECR_REPOSITORY_NAME="orr-dev-repo"
+                export ECS_CLUSTER_NAME="cluster-test-reporting-api"
+                export ECS_TASK_FAMILY_NAME="td-testing-reporting-api"
+                export ECS_CONTAINER_DEFINITION_NAME="container-orr-api"
+                export ECS_SERVICE_NAME="service-testing-reporting-api"
+                export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
+                export ECS_ENVIRONMENT="sandbox"  
+            fi
+            
+            JQ="jq --raw-output --exit-status"    
+            
+            deploy_cluster() 
+            {
+                make_task_def   
+                register_definition
+                
+                if $(aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $ECS_SERVICE_NAME --task-definition $revision | $JQ '.service.taskDefinition') != $revision; 
+                then
+                    echo "Error updating service"
+                    return 1
+                else 
+                    echo "Deployed!"
+                    return 0
+                    break
+                fi
+                
+            } 
+            
+            make_task_def()
+            { 
+            
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then              
+              
+              task_template='[
+                {
+                  "name": "%s",
+                  "image": "%s.dkr.ecr.%s.amazonaws.com/%s:%s",
+                  "essential": true,
+                  "logConfiguration": 
+                    {
+                      "logDriver": "awslogs",
+                         "options": {
+                             "awslogs-group": "/ecs/td-testing-reporting-api",
+                             "awslogs-region": "us-east-1",
+                             "awslogs-stream-prefix": "ecs"
+                                     }
+                    },
+                  "portMappings": [
+                    {
+                      "containerPort": 8060
+                    }
+                  ],
+                  "environment" : [
+                    {
+                      "name": "environment_name",
+                      "value": "sandbox"
+                    }
+                  ],
+            }
+            
+            task_def=$(printf "$task_template" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1)            
+            echo "task template: " $task_template
+            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1 $ECS_ENVIRONMENT
+            
+            fi
+            }
+            
+            register_definition() 
+            { 
+                if revision=$(aws ecs register-task-definition --requires-compatibilities FARGATE --cpu 256 --memory 1024 --network-mode awsvpc --execution-role-arn $EXECUTION_ROLE_ARN --container-definitions "$task_def" --family $ECS_TASK_FAMILY_NAME | $JQ '.taskDefinition.taskDefinitionArn'); then
+                    echo "New deployment: $revision"
+                else
+                    echo "Failed to register task definition."
+                    return 1
+                fi 
+              
+              } 
+            
+            deploy_cluster      
 workflows:
-  build-and-deploy:
+  version: 2
+  build-deploy:
     jobs:
-      - aws-ecr/build_and_push_image:
-          account-url: "233895708333.dkr.ecr.us-east-1.amazonaws.com"
-          repo: "orr-dev-repo"
-          region: "us-east-1"
-          tag: "${CIRCLE_SHA1}"
-      - aws-ecs/deploy-service-update:
+      - build
+      - deploy:
           requires:
-            - aws-ecr/build_and_push_image
-          family: "service-testing-reporting-api"
-          cluster-name: "cluster-test-reporting-api"
-          container-image-name-updates: 'container=container-orr-api,tag=${CIRCLE_SHA1}'  
+            - build
+            
+            
