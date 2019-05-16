@@ -157,7 +157,7 @@ jobs:
             
             register_definition() 
             { 
-                if revision=$(aws ecs register-task-definition --requires-compatibilities FARGATE --cpu 256 --memory 1024 --network-mode awsvpc --execution-role-arn $EXECUTION_ROLE_ARN --container-definitions "$task_def" --family $ECS_TASK_FAMILY_NAME | $JQ '.taskDefinition.taskDefinitionArn'); then
+                if revision=$(aws ecs register-task-definition --requires-compatibilities FARGATE --cpu 256 --memory 1024 --network-mode awsvpc --execution-role-arn $EXECUTION_ROLE_ARN --container-definitions '$task_def' --family $ECS_TASK_FAMILY_NAME | $JQ '.taskDefinition.taskDefinitionArn'); then
                     echo "New deployment: $revision"
                 else
                     echo "Failed to register task definition."
