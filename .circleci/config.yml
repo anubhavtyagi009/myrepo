@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Make the executable
           command: |
-            mvn package
+            mvn clean install -Dmaven.test.skip=true
       - run:
           name: Setup common environment variables
           command: |
