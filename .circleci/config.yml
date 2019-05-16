@@ -97,7 +97,7 @@ jobs:
                 export ECR_REPOSITORY_NAME="orr-dev-repo"
                 export ECS_CLUSTER_NAME="cluster-test-reporting-api"
                 export ECS_TASK_FAMILY_NAME="td-testing-reporting-api"
-                export ECS_CONTAINER_DEFINITION_NAME="container-orr-api"
+                export ECS_CONTAINER_DEFINITION_NAME="td-testing-reporting-api"
                 export ECS_SERVICE_NAME="service-testing-reporting-api"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
                 export ECS_ENVIRONMENT="sandbox"  
