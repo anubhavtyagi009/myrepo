@@ -85,7 +85,7 @@ jobs:
               echo "************in IF loop*************"             
               echo $(aws ecr get-login --region $AWS_REGION --no-include-email)
               eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
-              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/aar-api:$CIRCLE_SHA1  
+              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/orr-dev-repo:$CIRCLE_SHA1  
             fi
       - run:
           name: Deploy
