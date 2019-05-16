@@ -127,7 +127,7 @@ jobs:
             
             if [ "${CIRCLE_BRANCH}" == "master" ]; then              
               
-              task_template="[
+              task_template=[
                 {
                   "name": "%s",
                   "image": "%s.dkr.ecr.%s.amazonaws.com/%s:%s",
@@ -138,7 +138,7 @@ jobs:
                          "options": {
                              "awslogs-group": "/ecs/td-testing-reporting-api",
                              "awslogs-region": "us-east-1",
-                             "awslogs-stream-prefix": "td-testing-reporting-api"
+                             "awslogs-stream-prefix": "ecs"
                                      }
                     },
                   "portMappings": [
@@ -147,7 +147,7 @@ jobs:
                     }
                   ],
                 }
-              ]"
+              ]
             task_def=$(printf "$task_template" "td-testing-reporting-api" "233895708333" "us-east-1" "orr-dev-repo" $CIRCLE_SHA1)            
             echo "task template: " $task_template
             echo "this is all:" "td-testing-reporting-api" "233895708333" "us-east-1" "orr-dev-repo" $CIRCLE_SHA1
