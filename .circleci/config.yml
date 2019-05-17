@@ -96,7 +96,7 @@ jobs:
                 
                 export ECR_REPOSITORY_NAME="orr-dev-repo"
                 export ECS_CLUSTER_NAME="orr-test"
-                export ECS_TASK_FAMILY_NAME="orr-test"
+                export ECS_TASK_FAMILY_NAME="orr-test1"
                 export ECS_CONTAINER_DEFINITION_NAME="orr-test"
                 export ECS_SERVICE_NAME="orr-test"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
@@ -148,9 +148,9 @@ jobs:
                   ],
                 }
               ]'
-            task_def=$(printf "$task_template" "td-testing-reporting-api" "233895708333" "us-east-1" "orr-dev-repo" $CIRCLE_SHA1)            
+            task_def=$(printf "$task_template" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1)            
             echo "task template: " $task_template
-            echo "this is all:" "td-testing-reporting-api" "233895708333" "us-east-1" "orr-dev-repo" $CIRCLE_SHA1
+            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1
             
             fi
             }
