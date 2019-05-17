@@ -95,10 +95,10 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then 
                 
                 export ECR_REPOSITORY_NAME="orr-dev-repo"
-                export ECS_CLUSTER_NAME="cluster-test-reporting-api"
-                export ECS_TASK_FAMILY_NAME="td-testing-reporting-api"
-                export ECS_CONTAINER_DEFINITION_NAME="container-orr-api"
-                export ECS_SERVICE_NAME="service-testing-reporting-api"
+                export ECS_CLUSTER_NAME="orr-test"
+                export ECS_TASK_FAMILY_NAME="orr-test"
+                export ECS_CONTAINER_DEFINITION_NAME="orr-test"
+                export ECS_SERVICE_NAME="orr-test"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
                 
             fi
@@ -136,7 +136,7 @@ jobs:
                     {
                       "logDriver": "awslogs",
                          "options": {
-                             "awslogs-group": "/ecs/td-testing-reporting-api",
+                             "awslogs-group": "/ecs/orr-test",
                              "awslogs-region": "us-east-1",
                              "awslogs-stream-prefix": "ecs"
                                      }
