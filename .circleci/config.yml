@@ -96,7 +96,7 @@ jobs:
                 
                 export ECR_REPOSITORY_NAME="orr-dev-repo"
                 export ECS_CLUSTER_NAME="orr-test"
-                export ECS_TASK_FAMILY_NAME="orr-test1"
+                export ECS_TASK_FAMILY_NAME="orr-test"
                 export ECS_CONTAINER_DEFINITION_NAME="orr-test"
                 export ECS_SERVICE_NAME="orr-test"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
