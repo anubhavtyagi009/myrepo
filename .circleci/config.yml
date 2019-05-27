@@ -10,3 +10,10 @@ workflows:
           repo: "orr-dev-repo"
           region: "us-east-1"
           tag: "${CIRCLE_SHA1}"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build_and_push_image
+          family: "orr-test"
+          cluster-name: "orr-test"
+          service-name: "orr-test"
+          container-image-name-updates: 'container=orr-test,tag=${CIRCLE_SHA1}'  
