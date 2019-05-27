@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-05-27T14:29:08.842+05:30")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-05-27T14:33:40.111+05:30")
 
 public class Tag   {
   @JsonProperty("id")
