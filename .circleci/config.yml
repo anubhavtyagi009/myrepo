@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Make the executable
           command: |
-            mvn package
+            mvn clean install -Dmaven.test.skip=true
       - run:
           name: Setup common environment variables
           command: |
@@ -85,7 +85,7 @@ jobs:
               echo "************in IF loop*************"             
               echo $(aws ecr get-login --region $AWS_REGION --no-include-email)
               eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
-              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/aar-api:$CIRCLE_SHA1  
+              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/orr-dev-repo:$CIRCLE_SHA1  
             fi
       - run:
           name: Deploy
@@ -95,12 +95,12 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then 
                 
                 export ECR_REPOSITORY_NAME="orr-dev-repo"
-                export ECS_CLUSTER_NAME="cluster-test-reporting-api"
-                export ECS_TASK_FAMILY_NAME="td-testing-reporting-api"
-                export ECS_CONTAINER_DEFINITION_NAME="container-orr-api"
-                export ECS_SERVICE_NAME="service-testing-reporting-api"
+                export ECS_CLUSTER_NAME="orr-test"
+                export ECS_TASK_FAMILY_NAME="orr-test"
+                export ECS_CONTAINER_DEFINITION_NAME="orr-test"
+                export ECS_SERVICE_NAME="orr-test"
                 export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
-                export ECS_ENVIRONMENT="sandbox"  
+                
             fi
             
             JQ="jq --raw-output --exit-status"    
@@ -136,7 +136,7 @@ jobs:
                     {
                       "logDriver": "awslogs",
                          "options": {
-                             "awslogs-group": "/ecs/td-testing-reporting-api",
+                             "awslogs-group": "/ecs/orr-test",
                              "awslogs-region": "us-east-1",
                              "awslogs-stream-prefix": "ecs"
                                      }
@@ -146,17 +146,11 @@ jobs:
                       "containerPort": 8060
                     }
                   ],
-                  "environment" : [
-                    {
-                      "name": "environment_name",
-                      "value": "sandbox"
-                    }
-                  ],
-            }
-            
+                }
+              ]'
             task_def=$(printf "$task_template" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1)            
             echo "task template: " $task_template
-            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1 $ECS_ENVIRONMENT
+            echo "this is all:" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1
             
             fi
             }
@@ -181,5 +175,3 @@ workflows:
       - deploy:
           requires:
             - build
-            
-            
