@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.impelsys.microservice</groupId>
+    <groupId>com.bec.orrreporting</groupId>
     <artifactId>orr-reporting-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -15,7 +15,7 @@
         </repository>
     </repositories>
 
-    <!-- jhipster-needle-distribution-management -->
+    <!-- -needle-distribution-management -->
 
     <properties>
         <!-- Build properties -->
@@ -39,8 +39,7 @@
 
         <!-- Dependency versions -->
         <jhipster-dependencies.version>2.0.28</jhipster-dependencies.version>
-        <!-- The spring-boot version should match the one managed by
-        https://mvnrepository.com/artifact/io.github.jhipster/jhipster-dependencies/${jhipster-dependencies.version} -->
+        <!-- The spring-boot version should match the one managed by -->
         <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
@@ -67,9 +66,7 @@
         <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
 
-        <docker.image.prefix>springio</docker.image.prefix>
-
-        <!-- jhipster-needle-maven-property -->
+        <!-- -needle-maven-property -->
     </properties>
 
     <dependencyManagement>
@@ -81,24 +78,40 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- jhipster-needle-maven-add-dependency-management -->
+            <!-- -needle-maven-add-dependency-management -->
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+
+
         <dependency>
             <groupId>com.amazon.redshift</groupId>
             <artifactId>redshift-jdbc42-no-awssdk</artifactId>
-            <version>1.2.20.1043</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-redshift</artifactId>
-            <version>1.11.118</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <version>1.2.10.1009</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
         <dependency>
@@ -108,7 +121,13 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-redshift</artifactId>
+            <version>1.11.118</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sts</artifactId>
@@ -193,10 +212,17 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-hibernate52</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
         </dependency>
 
         <dependency>
@@ -382,7 +408,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
         </dependency>
-        <!-- jhipster-needle-maven-add-dependency -->
+        <!-- -needle-maven-add-dependency -->
     </dependencies>
 
     <build>
@@ -420,8 +446,8 @@
                         <configuration>
                             <inputSpec>src/main/resources/swagger/api.yml</inputSpec>
                             <language>spring</language>
-                            <apiPackage>com.impelsys.microservice.web.api.controller</apiPackage>
-                            <modelPackage>com.impelsys.microservice.web.api.model</modelPackage>
+                            <apiPackage>com.bec.orrreporting.web.api.controller</apiPackage>
+                            <modelPackage>com.bec.orrreporting.web.api.model</modelPackage>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
@@ -479,7 +505,7 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
             </plugin>
-            <!-- jhipster-needle-maven-add-plugin -->
+            <!-- -needle-maven-add-plugin -->
         </plugins>
         <pluginManagement>
             <plugins>
@@ -628,12 +654,12 @@
                     <configuration>
                         <rules>
                             <requireMavenVersion>
-                                <message>You are running an older version of Maven. JHipster requires at least Maven ${maven.version}</message>
+                                <message>You are running an older version of Maven. requires at least Maven ${maven.version}</message>
                                 <version>[${maven.version},)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
-                                <!-- Until JHipster supports JDK 9 -->
-                                <message>You are running an incompatible version of Java. JHipster requires JDK ${java.version}</message>
+                                <!-- Until  supports JDK 9 -->
+                                <message>You are running an incompatible version of Java.  requires JDK ${java.version}</message>
                                 <version>[1.8,1.9)</version>
                             </requireJavaVersion>
                         </rules>
@@ -746,14 +772,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>dockerfile-maven-plugin</artifactId>
-                    <version>1.4.9</version>
-                    <configuration>
-                        <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -955,6 +973,6 @@
                 </dependency>
             </dependencies>
         </profile>
-        <!-- jhipster-needle-maven-add-profile -->
+        <!-- -needle-maven-add-profile -->
     </profiles>
 </project>

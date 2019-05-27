@@ -480,6 +480,13 @@ under the License.
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://C:/Users/anubh/.m2/repository/com/amazon/redshift/redshift-jdbc42-no-awssdk/1.2.10.1009/redshift-jdbc42-no-awssdk-1.2.10.1009.jar!/"/>
+        </CLASSES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://C:/Users/anubh/.m2/repository/org/springframework/cloud/spring-cloud-starter/2.0.2.RELEASE/spring-cloud-starter-2.0.2.RELEASE.jar!/"/>
         </CLASSES>
       </library>
@@ -1069,13 +1076,6 @@ under the License.
       <library>
         <CLASSES>
           <root url="jar://C:/Users/anubh/.m2/repository/org/springframework/data/spring-data-commons/2.0.11.RELEASE/spring-data-commons-2.0.11.RELEASE.jar!/"/>
-        </CLASSES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://C:/Users/anubh/.m2/repository/com/amazon/redshift/redshift-jdbc42-no-awssdk/1.2.20.1043/redshift-jdbc42-no-awssdk-1.2.20.1043.jar!/"/>
         </CLASSES>
       </library>
     </orderEntry>
@@ -2059,6 +2059,11 @@ under the License.
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1"/>
+      <attribute name="URI" value="/WEB-INF/lib/redshift-jdbc42-no-awssdk-1.2.10.1009.jar"/>
+      <url>jar://C:/Users/anubh/.m2/repository/com/amazon/redshift/redshift-jdbc42-no-awssdk/1.2.10.1009/redshift-jdbc42-no-awssdk-1.2.10.1009.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1"/>
       <attribute name="URI" value="/WEB-INF/lib/spring-cloud-starter-2.0.2.RELEASE.jar"/>
       <url>jar://C:/Users/anubh/.m2/repository/org/springframework/cloud/spring-cloud-starter/2.0.2.RELEASE/spring-cloud-starter-2.0.2.RELEASE.jar!/</url>
     </containerElement>
@@ -2481,11 +2486,6 @@ under the License.
       <attribute name="method" value="1"/>
       <attribute name="URI" value="/WEB-INF/lib/spring-data-commons-2.0.11.RELEASE.jar"/>
       <url>jar://C:/Users/anubh/.m2/repository/org/springframework/data/spring-data-commons/2.0.11.RELEASE/spring-data-commons-2.0.11.RELEASE.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1"/>
-      <attribute name="URI" value="/WEB-INF/lib/redshift-jdbc42-no-awssdk-1.2.20.1043.jar"/>
-      <url>jar://C:/Users/anubh/.m2/repository/com/amazon/redshift/redshift-jdbc42-no-awssdk/1.2.20.1043/redshift-jdbc42-no-awssdk-1.2.20.1043.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1"/>

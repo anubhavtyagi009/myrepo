@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <mapping-file>com/impelsys/microservice/domain/DimAssessmentTestEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimAssignmentCreatorEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimClassEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimClassTempEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimDistrictEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimReadingLevelsEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimSchoolEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimStudentEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimTestInstanceEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/FactOrrAssignmentNoAggEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimClassOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimDistrictOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimReadingLevelsOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimSchoolOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/DimStudentOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/EmpEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/FactOrrAssignmentNoAggBkpEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/FactOrrAssignmentNoAggOldEntity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/Test1Entity.xml</mapping-file>
+        <mapping-file>com/impelsys/microservice/domain/EntityIdsListEntity.xml</mapping-file>
+        <class>com.bec.orrreporting.domain.DimAssessmentTestEntity</class>
+        <class>com.bec.orrreporting.domain.DimAssignmentCreatorEntity</class>
+        <class>com.bec.orrreporting.domain.DimClassEntity</class>
+        <class>com.impelsys.microservice.domain.DimClassTempEntity</class>
+        <class>com.bec.orrreporting.domain.DimDistrictEntity</class>
+        <class>com.bec.orrreporting.domain.DimReadingLevelsEntity</class>
+        <class>com.bec.orrreporting.domain.DimSchoolEntity</class>
+        <class>com.bec.orrreporting.domain.DimStudentEntity</class>
+        <class>com.bec.orrreporting.domain.DimTestInstanceEntity</class>
+        <class>com.bec.orrreporting.domain.FactOrrAssignmentNoAggEntity</class>
+        <class>com.impelsys.microservice.domain.DimClassOldEntity</class>
+        <class>com.impelsys.microservice.domain.DimDistrictOldEntity</class>
+        <class>com.impelsys.microservice.domain.DimReadingLevelsOldEntity</class>
+        <class>com.impelsys.microservice.domain.DimSchoolOldEntity</class>
+        <class>com.impelsys.microservice.domain.DimStudentOldEntity</class>
+        <class>com.impelsys.microservice.domain.EmpEntity</class>
+        <class>com.impelsys.microservice.domain.FactOrrAssignmentNoAggBkpEntity</class>
+        <class>com.impelsys.microservice.domain.FactOrrAssignmentNoAggOldEntity</class>
+        <class>com.impelsys.microservice.domain.Test1Entity</class>
+        <class>com.bec.orrreporting.domain.EntityIdsListEntity</class>
+        <properties>
+            <property name="hibernate.connection.url"
+                      value="jdbc:redshift://r-dev-orr-redshift-cluster-1.cddm8vpzeufh.us-east-1.redshift.amazonaws.com:5439/r_dev_orr_redshift"/>
+            <property name="hibernate.connection.driver_class" value="com.amazon.redshift.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value=""/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
