@@ -129,8 +129,8 @@ jobs:
               
               task_template='[
                 {
-                  "name": "%s",
-                  "image": "%s.dkr.ecr.%s.amazonaws.com/%s:%s",
+                  "name": "orr-test",
+                  "image": "233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:ce18a02dfa954e0f10a652b052c9582791780077",
                   "essential": true,
                   "logConfiguration": 
                     {
