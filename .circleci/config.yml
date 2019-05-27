@@ -8,5 +8,5 @@ workflows:
       - aws-ecr/build_and_push_image:
           account-url: "233895708333.dkr.ecr.us-east-1.amazonaws.com"
           repo: "orr-dev-repo"
-          region: "us-east-1
+          region: "us-east-1"
           tag: "${CIRCLE_SHA1}"
