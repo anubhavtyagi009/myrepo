@@ -14,8 +14,8 @@ jobs:
           name: Setup common environment variables
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then               
-              echo 'export BEC_ECR_REPOSITORY_NAME="development-orr-api-repo"' >> $BASH_ENV
-              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/development-orr-api-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
+              echo 'export BEC_ECR_REPOSITORY_NAME="orr-dev-repo"' >> $BASH_ENV
+              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-dev-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
             fi 
       - run:
           name: Build image
@@ -79,7 +79,7 @@ jobs:
               echo "************in IF loop*************"             
               echo $(aws ecr get-login --region $AWS_REGION --no-include-email)
               eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
-              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/development-orr-api-repo:$CIRCLE_SHA1  
+              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/orr-dev-repo:$CIRCLE_SHA1  
             fi
       - run:
           name: Deploy
@@ -88,12 +88,12 @@ jobs:
             
             if [ "${CIRCLE_BRANCH}" == "master" ]; then 
                 
-                export ECR_REPOSITORY_NAME="development-orr-api-repo"
-                export ECS_CLUSTER_NAME="development-Orr-api-cluster"
-                export ECS_TASK_FAMILY_NAME="bu-orr-api-dev"
-                export ECS_CONTAINER_DEFINITION_NAME="bu-orr-api-dev"
-                export ECS_SERVICE_NAME="bu-orr-api-dev"
-                export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/OrrECSTaskExecutionRole"
+                export ECR_REPOSITORY_NAME="orr-dev-repo"
+                export ECS_CLUSTER_NAME="orr-test"
+                export ECS_TASK_FAMILY_NAME="orr-test"
+                export ECS_CONTAINER_DEFINITION_NAME="orr-test"
+                export ECS_SERVICE_NAME="orr-test"
+                export EXECUTION_ROLE_ARN="arn:aws:iam::233895708333:role/ecsTaskExecutionRole"
                 
             fi
             
@@ -123,37 +123,23 @@ jobs:
               
               task_template='[
                 {
-                    "name": "%s",
-                    "image": "%s.dkr.ecr.%s.amazonaws.com/%s:%s",
-                    "essential": true,
-                    "logConfiguration": {
-                        "logDriver": "awslogs",
-                        "options": {
-                            "awslogs-group": "/ecs/orr-test",
-                            "awslogs-region": "us-east-1",
-                            "awslogs-stream-prefix": "ecs"
-                        }
+                  "name": "%s",
+                  "image": "%s.dkr.ecr.%s.amazonaws.com/%s:%s",
+                  "essential": true,
+                  "logConfiguration": 
+                    {
+                      "logDriver": "awslogs",
+                         "options": {
+                             "awslogs-group": "/ecs/orr-test",
+                             "awslogs-region": "us-east-1",
+                             "awslogs-stream-prefix": "ecs"
+                                     }
                     },
-                    "portMappings": [{
-                        "containerPort": 8060
-                    }],
-                    "environment": [{
-                        "name": "environment_name",
-                        "value": "development"
-                    }],
-                    "secrets": [{
-                            "name": "Redshift-URL",
-                            "valueFrom": "arn:aws:ssm:us-east-1:233895708333:parameter/DEVELOPMENT_DATASOURCE"
-                        },
-                        {
-                            "name": "Redshift-Username",
-                            "valueFrom": "arn:aws:ssm:us-east-1:233895708333:parameter/DEVELOPMENT_DB_USERNAME"
-                        },
-                        {
-                            "name": "Redshift-Password",
-                            "valueFrom": "arn:aws:ssm:us-east-1:233895708333:parameter/DEVELOPMENT_DB_PASSWORD"
-                        }
-                    ]
+                  "portMappings": [
+                    {
+                      "containerPort": 8060
+                    }
+                  ]
                 }
               ]'
             task_def=$(printf "$task_template" $ECS_CONTAINER_DEFINITION_NAME $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY_NAME $CIRCLE_SHA1)            
