@@ -14,8 +14,8 @@ jobs:
           name: Setup common environment variables
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then               
-              echo 'export BEC_ECR_REPOSITORY_NAME="orr-api-repo"' >> $BASH_ENV
-              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/orr-api-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
+              echo 'export BEC_ECR_REPOSITORY_NAME="development-orr-api-repo"' >> $BASH_ENV
+              echo 'export FULL_IMAGE_NAME="233895708333.dkr.ecr.us-east-1.amazonaws.com/development-orr-api-repo:${CIRCLE_SHA1}"' >> $BASH_ENV
             fi 
       - run:
           name: Build image
@@ -79,7 +79,7 @@ jobs:
               echo "************in IF loop*************"             
               echo $(aws ecr get-login --region $AWS_REGION --no-include-email)
               eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
-              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/orr-api-repo:$CIRCLE_SHA1  
+              docker push 233895708333.dkr.ecr.$AWS_REGION.amazonaws.com/development-orr-api-repo:$CIRCLE_SHA1  
             fi
       - run:
           name: Deploy
@@ -88,7 +88,7 @@ jobs:
             
             if [ "${CIRCLE_BRANCH}" == "master" ]; then 
                 
-                export ECR_REPOSITORY_NAME="orr-api-repo"
+                export ECR_REPOSITORY_NAME="development-orr-api-repo"
                 export ECS_CLUSTER_NAME="development-Orr-api-cluster"
                 export ECS_TASK_FAMILY_NAME="bu-orr-api-dev"
                 export ECS_CONTAINER_DEFINITION_NAME="bu-orr-api-dev"
