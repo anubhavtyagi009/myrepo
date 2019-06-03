@@ -36,5 +36,6 @@ java -jar orr-reporting-api-0.0.1-SNAPSHOT.war --spring.profiles.active=qa -Dmav
 mvn clean install -Dmaven.test.skip=true
 
 ##testing parameter store in AWS
+##test1
 
 
